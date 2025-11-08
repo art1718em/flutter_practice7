@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
-import '../../service_history/screens/service_history_screen.dart';
-import '../../vehicle_info/screens/vehicle_info_screen.dart';
 import '../models/expense_model.dart';
-import '../screens/add_expense_screen.dart';
 import '../screens/car_expenses_screen.dart';
 
 class CarExpensesContainer extends StatefulWidget {
@@ -71,26 +69,19 @@ class _CarExpensesContainerState extends State<CarExpensesContainer> {
     }
   }
 
-  void _navigateToAddExpense() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => AddExpenseScreen(
-          onSave: _saveExpense,
-        ),
-      ),
-    );
+  void _navigateToAddExpense() async {
+    final result = await context.push<Map<String, dynamic>?>('/expenses/add');
+    if (result != null && result.containsKey('title') && result.containsKey('amount')) {
+      _saveExpense(result['title'] as String, result['amount'] as double);
+    }
   }
 
   void _navigateToInfo() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (ctx) => const VehicleInfoScreen()),
-    );
+    context.pushReplacement('/info');
   }
 
   void _navigateToHistory() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (ctx) => const ServiceHistoryScreen()),
-    );
+    context.pushReplacement('/history');
   }
 
   @override

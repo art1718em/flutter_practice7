@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AddServiceRecordScreen extends StatefulWidget {
-  final Function(String title, double cost) onSave;
-
-  const AddServiceRecordScreen({super.key, required this.onSave});
+  const AddServiceRecordScreen({super.key});
 
   @override
   State<AddServiceRecordScreen> createState() => _AddServiceRecordScreenState();
@@ -25,8 +24,7 @@ class _AddServiceRecordScreenState extends State<AddServiceRecordScreen> {
     if (_formKey.currentState!.validate()) {
       final title = _titleController.text;
       final cost = double.tryParse(_costController.text) ?? 0.0;
-      widget.onSave(title, cost);
-      Navigator.of(context).pop();
+      context.pop({'title': title, 'cost': cost});
     }
   }
 
@@ -41,6 +39,10 @@ class _AddServiceRecordScreenState extends State<AddServiceRecordScreen> {
             onPressed: _saveForm,
           ),
         ],
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

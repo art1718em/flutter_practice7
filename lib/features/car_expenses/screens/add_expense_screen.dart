@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
 
 class AddExpenseScreen extends StatefulWidget {
-  final Function(String title, double amount) onSave;
-
   const AddExpenseScreen({
     super.key,
-    required this.onSave,
   });
 
   @override
@@ -29,8 +27,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     if (_formKey.currentState!.validate()) {
       final title = _titleController.text;
       final amount = double.tryParse(_amountController.text) ?? 0.0;
-      widget.onSave(title, amount);
-      Navigator.of(context).pop();
+      context.pop({'title': title, 'amount': amount});
     }
   }
 
@@ -41,7 +38,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
         ),
         title: Row(
           mainAxisSize: MainAxisSize.min,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'features/car_expenses/state/car_expenses_container.dart';
+import 'features/navigation/app_router.dart';
 import 'shared/app_theme.dart';
 
 void main() {
@@ -11,10 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Учет расходов на авто',
       theme: AppTheme.lightTheme,
-      home: const CarExpensesContainer(),
+      routerConfig: appRouter,
     );
   }
 }

@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import '../../car_expenses/state/car_expenses_container.dart';
 import '../models/service_record_model.dart';
-import 'add_service_record_screen.dart';
 
 class ServiceHistoryScreen extends StatefulWidget {
   const ServiceHistoryScreen({super.key});
@@ -26,18 +25,15 @@ class _ServiceHistoryScreenState extends State<ServiceHistoryScreen> {
     });
   }
 
-  void _navigateToAddScreen() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => AddServiceRecordScreen(onSave: _addServiceRecord),
-      ),
-    );
+  void _navigateToAddScreen() async {
+    final result = await context.push<Map<String, dynamic>?>('/history/add');
+    if (result != null && result.containsKey('title') && result.containsKey('cost')) {
+      _addServiceRecord(result['title'] as String, result['cost'] as double);
+    }
   }
 
   void _navigateToMain() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (ctx) => const CarExpensesContainer()),
-    );
+    context.pushReplacement('/expenses');
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../car_expenses/state/car_expenses_container.dart';
+import 'package:go_router/go_router.dart';
 
 class VehicleInfoScreen extends StatelessWidget {
   const VehicleInfoScreen({super.key});
@@ -12,11 +12,7 @@ class VehicleInfoScreen extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.home),
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (ctx) => const CarExpensesContainer()),
-            );
-          },
+          onPressed: () => context.pushReplacement('/expenses'),
         ),
       ),
       body: Padding(
