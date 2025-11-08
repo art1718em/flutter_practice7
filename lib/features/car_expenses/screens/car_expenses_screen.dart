@@ -7,6 +7,8 @@ class CarExpensesScreen extends StatelessWidget {
   final List<ExpenseModel> expenses;
   final double totalAmount;
   final VoidCallback onAddExpense;
+  final VoidCallback onNavigateToInfo;
+  final VoidCallback onNavigateToHistory;
   final ValueChanged<String>? onRemove;
 
   const CarExpensesScreen({
@@ -14,6 +16,8 @@ class CarExpensesScreen extends StatelessWidget {
     required this.expenses,
     required this.totalAmount,
     required this.onAddExpense,
+    required this.onNavigateToInfo,
+    required this.onNavigateToHistory,
     this.onRemove,
   });
 
@@ -22,6 +26,21 @@ class CarExpensesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        leadingWidth: 100,
+        leading: Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.info_outline),
+              tooltip: 'Информация',
+              onPressed: onNavigateToInfo,
+            ),
+            IconButton(
+              icon: const Icon(Icons.history),
+              tooltip: 'История',
+              onPressed: onNavigateToHistory,
+            ),
+          ],
+        ),
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

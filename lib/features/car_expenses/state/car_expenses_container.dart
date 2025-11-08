@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import '../../service_history/screens/service_history_screen.dart';
+import '../../vehicle_info/screens/vehicle_info_screen.dart';
 import '../models/expense_model.dart';
 import '../screens/add_expense_screen.dart';
 import '../screens/car_expenses_screen.dart';
-
-enum ScreenView { expensesTable, addExpense }
 
 class CarExpensesContainer extends StatefulWidget {
   const CarExpensesContainer({super.key});
@@ -16,8 +16,6 @@ class CarExpensesContainer extends StatefulWidget {
 class _CarExpensesContainerState extends State<CarExpensesContainer> {
   final List<ExpenseModel> _expenses = [];
   final _uuid = const Uuid();
-
-  ScreenView _currentView = ScreenView.expensesTable;
 
   ExpenseModel? _recentlyRemovedExpense;
   int? _recentlyRemovedExpenseIndex;
@@ -35,7 +33,6 @@ class _CarExpensesContainerState extends State<CarExpensesContainer> {
     );
     setState(() {
       _expenses.add(newExpense);
-      _currentView = ScreenView.expensesTable;
     });
   }
 
@@ -74,34 +71,37 @@ class _CarExpensesContainerState extends State<CarExpensesContainer> {
     }
   }
 
-  void _showExpensesTable() =>
-      setState(() => _currentView = ScreenView.expensesTable);
-  void _showAddExpense() => setState(() => _currentView = ScreenView.addExpense);
+  void _navigateToAddExpense() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => AddExpenseScreen(
+          onSave: _saveExpense,
+        ),
+      ),
+    );
+  }
+
+  void _navigateToInfo() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (ctx) => const VehicleInfoScreen()),
+    );
+  }
+
+  void _navigateToHistory() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (ctx) => const ServiceHistoryScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    Widget activeScreen;
-    if (_currentView == ScreenView.expensesTable) {
-      activeScreen = CarExpensesScreen(
-        key: const ValueKey('ExpensesTable'),
-        expenses: _expenses,
-        totalAmount: _totalAmount,
-        onAddExpense: _showAddExpense,
-        onRemove: _removeExpense,
-      );
-    } else {
-      activeScreen = AddExpenseScreen(
-        key: const ValueKey('AddExpense'),
-        onSave: _saveExpense,
-        onCancel: _showExpensesTable,
-      );
-    }
-
-    return Scaffold(
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 200),
-        child: activeScreen,
-      ),
+    return CarExpensesScreen(
+      expenses: _expenses,
+      totalAmount: _totalAmount,
+      onAddExpense: _navigateToAddExpense,
+      onRemove: _removeExpense,
+      onNavigateToInfo: _navigateToInfo,
+      onNavigateToHistory: _navigateToHistory,
     );
   }
 }

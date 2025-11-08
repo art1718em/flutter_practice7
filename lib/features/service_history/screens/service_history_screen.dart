@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../car_expenses/state/car_expenses_container.dart';
 import '../models/service_record_model.dart';
 import 'add_service_record_screen.dart';
 
@@ -30,6 +31,12 @@ class _ServiceHistoryScreenState extends State<ServiceHistoryScreen> {
       MaterialPageRoute(
         builder: (ctx) => AddServiceRecordScreen(onSave: _addServiceRecord),
       ),
+    );
+  }
+
+  void _navigateToMain() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (ctx) => const CarExpensesContainer()),
     );
   }
 
@@ -79,6 +86,10 @@ class _ServiceHistoryScreenState extends State<ServiceHistoryScreen> {
       appBar: AppBar(
         title: const Text('История обслуживания'),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.home),
+          onPressed: _navigateToMain,
+        ),
       ),
       body: mainContent,
       floatingActionButton: FloatingActionButton(

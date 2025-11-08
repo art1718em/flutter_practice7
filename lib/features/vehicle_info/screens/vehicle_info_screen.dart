@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../car_expenses/state/car_expenses_container.dart';
 
 class VehicleInfoScreen extends StatelessWidget {
   const VehicleInfoScreen({super.key});
@@ -9,6 +10,14 @@ class VehicleInfoScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Информация об автомобиле'),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.home),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (ctx) => const CarExpensesContainer()),
+            );
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

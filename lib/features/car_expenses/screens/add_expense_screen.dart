@@ -3,12 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class AddExpenseScreen extends StatefulWidget {
   final Function(String title, double amount) onSave;
-  final VoidCallback onCancel;
 
   const AddExpenseScreen({
     super.key,
     required this.onSave,
-    required this.onCancel,
   });
 
   @override
@@ -32,6 +30,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       final title = _titleController.text;
       final amount = double.tryParse(_amountController.text) ?? 0.0;
       widget.onSave(title, amount);
+      Navigator.of(context).pop();
     }
   }
 
@@ -42,7 +41,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: widget.onCancel,
+          onPressed: () => Navigator.of(context).pop(),
         ),
         title: Row(
           mainAxisSize: MainAxisSize.min,
